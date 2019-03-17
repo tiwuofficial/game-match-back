@@ -14,26 +14,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Authenticatable, Authorizable;
 
     /**
-     * The "type" of the auto-incrementing ID.
-     *
-     * @var string
-     */
-    protected $keyType = 'string';
-
-    /**
-     * モデルの主キーを自動増分させるか否か
-     *
-     * @var boolean
-     */
-    public $incrementing = false;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id', 'introduction', 'password'
+        'user_id', 'introduction', 'password'
     ];
 
    public function getJWTIdentifier()

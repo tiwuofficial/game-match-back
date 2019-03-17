@@ -11,8 +11,8 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        if (! $token = Auth::attempt(['id' => $request->input('id'), 'password' => $request->input('password')])) {
-            return response()->json(['error' => 'Unauthorized', 'id' => $request->input('id'), 'password' => $request->input('password')], 401);
+        if (! $token = Auth::attempt(['user_id' => $request->input('user_id'), 'password' => $request->input('password')])) {
+            return response()->json(['error' => 'Unauthorized', 'user_id' => $request->input('user_id'), 'password' => $request->input('password')], 401);
         }
 
         return $this->respondWithToken($token);
@@ -21,31 +21,17 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         User::create([
-            'id' => $request->input('id'),
+            'user_id' => $request->input('user_id'),
             'password' => password_hash($request->input('password'), PASSWORD_DEFAULT),
             'introduction' => $request->input('introduction'),
         ]);
-        $token = Auth::attempt(['id' => $request->input('id'), 'password' => $request->input('password')]);
+        $token = Auth::attempt(['user_id' => $request->input('user_id'), 'password' => $request->input('password')]);
         return $this->respondWithToken($token);
     }
 
     public function me()
     {
         return response()->json(Auth::user());
-    }
-
-    public function users()
-    {
-        $users = User::get();
-        $result = [];
-        Log::info($users);
-        foreach ($users as $user) {
-            $result[] = [
-                'id' => $user->id,
-                'introduction' => $user->introduction,
-            ];
-        }
-        return response()->json($result);
     }
 
     /**

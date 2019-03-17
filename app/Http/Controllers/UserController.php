@@ -13,7 +13,7 @@ class UserController extends Controller
         $result = [];
         foreach ($users as $user) {
             $result[] = [
-                'id' => $user->id,
+                'user_id' => $user->user_id,
                 'introduction' => $user->introduction,
             ];
         }
@@ -22,9 +22,9 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::where('id', $id)->first();
+        $user = User::where('user_id', $id)->first();
         return response()->json([
-            'id' => $user->id,
+            'user_id' => $user->user_id,
             'introduction' => $user->introduction,
         ]);
     }
