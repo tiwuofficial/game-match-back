@@ -40,10 +40,15 @@ class UserController extends Controller
         if (Friend::where('to_id', Auth::user()->id)->where('from_id', $user->id)->first()) {
            $isFriend = true;
         }
+        $isRequest = false;
+        if (\App\Model\Request::where('from_id', Auth::user()->id)->where('to_id', $user->id)->first()) {
+            $isRequest = true;
+        }
         return response()->json([
             'userId' => $user->user_id,
             'introduction' => $user->introduction,
-            'isFriend' => $isFriend
+            'isFriend' => $isFriend,
+            'isRequest' => $isRequest
         ]);
     }
 
