@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
         if (! $token = Auth::attempt(['user_id' => $request->input('user_id'), 'password' => $request->input('password')])) {
-            return response()->json(['error' => 'Unauthorized', 'user_id' => $request->input('user_id'), 'password' => $request->input('password')], 401);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -27,11 +26,6 @@ class AuthController extends Controller
         ]);
         $token = Auth::attempt(['user_id' => $request->input('user_id'), 'password' => $request->input('password')]);
         return $this->respondWithToken($token);
-    }
-
-    public function me()
-    {
-        return response()->json(Auth::user());
     }
 
     /**

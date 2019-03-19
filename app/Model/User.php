@@ -22,6 +22,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'user_id', 'introduction', 'password'
     ];
 
+    public function isFriends()
+    {
+
+    }
+
    public function getJWTIdentifier()
    {
        return $this->getKey();
